@@ -3,8 +3,9 @@ bibsnoop - Browser-in-Browser traffic snooping with mitmproxy
 
 Description
 -----------
-Docker images for *Browser-in-Browser* with traffic observable via mitmproxy, allowing analysis for instance in the case of phishing / web threats analysis.
-
+Docker images for *Browser-in-Browser* with traffic observable via mitmproxy, allowing analysis for instance in the case of phishing / web threats analysis.  
+* LibreWolf is currently used as the browser
+* Images are currently built for x64 and arm64
 
 Usage
 -----
