@@ -3,7 +3,7 @@ bibsnoop - Browser-in-Browser traffic snooping with mitmproxy
 
 Description
 -----------
-Docker images for Browser-in-Browser with traffic observable via mitmproxy, for instance for phishing / web threats analysis.
+Docker images for *Browser-in-Browser* with traffic observable via mitmproxy, allowing analysis for instance in the case of phishing / web threats analysis.
 
 
 Copyright and license
