@@ -18,8 +18,8 @@ Usage
 * Port **8081** is the **mitmproxy WebUI**
 ```
 docker run --rm -it \
-  -p 127.0.0.1:5800:5800 \
-  -p 127.0.0.1:8081:8081 \
+  -p 5800:5800 \
+  -p 8081:8081 \
   ghcr.io/maaaaz/bibsnoop-librewolf:latest
 ```
 
