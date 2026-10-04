@@ -9,7 +9,7 @@ Docker images for *Browser-in-Browser* with traffic observable via mitmproxy, al
 
 Usage
 -----
-* Port **5800** is the **NoVNC WebUI**
+* Port **5800** is the **NoVNC WebUI of the Browser-in-Browser**
 * Port **8081** is the **mitmproxy WebUI**
 ```
 docker run --rm -it \
