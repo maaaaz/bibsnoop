@@ -7,9 +7,9 @@ Docker images for *Browser-in-Browser* with traffic observable via `mitmproxy`, 
 
 Features
 --------
-* Based on the ["baseimage-gui" alpine docker image](https://github.com/jlesage/docker-baseimage-gui) of @jlesage
-* LibreWolf is currently used as the browser
+* Based on the ["baseimage-gui" alpine docker image](https://github.com/jlesage/docker-baseimage-gui) of [@jlesage](https://github.com/jlesage/)
 * Docker images are currently built for x64 and arm64
+* LibreWolf is currently used as the browser
 * No builtin generic CA certificates: the MiTM CA used between the browser and `mitmproxy` is randomly dynamically generated at each start of the Docker image
 
 Usage
