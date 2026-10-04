@@ -9,7 +9,7 @@ Features
 --------
 * Based on the ["baseimage-gui" alpine docker image](https://github.com/jlesage/docker-baseimage-gui) of [@jlesage](https://github.com/jlesage/)
 * Docker images are currently built for x64 and arm64
-* LibreWolf is currently used as the browser
+* LibreWolf is currently used as the browser but other browsers and cases (with/without Tor egress) are planned
 * No builtin generic CA certificates: the MiTM CA used between the browser and `mitmproxy` is randomly dynamically generated at each start of the Docker image
 
 Usage
