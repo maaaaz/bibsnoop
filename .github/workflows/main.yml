@@ -1,4 +1,4 @@
-name: Daily Docker builds
+name: Daily builds
 
 on:
   workflow_dispatch
