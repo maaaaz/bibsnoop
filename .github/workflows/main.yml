@@ -60,13 +60,6 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/${{ matrix.name }}:latest
             ghcr.io/${{ github.repository_owner }}/${{ matrix.name }}:${{ steps.meta.outputs.tag }}
 
-      # - name: Delete old container versions
-      #   uses: actions/delete-package-versions@v5
-      #   with:
-      #     package-name: ${{ matrix.name }}
-      #     package-type: container
-      #     min-versions-to-keep: 4
-
 ################################################
 
   cleanup:
