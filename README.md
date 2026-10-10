@@ -12,13 +12,8 @@ Features
 * LibreWolf is currently used as the browser but other browsers and cases (with/without Tor egress) are planned
 * No builtin generic CA certificates: the MiTM CA used between the browser and `mitmproxy` is randomly dynamically generated at each start of the Docker image
 
-Usage
+Quickstart
 -----
-* Port **5800** is the **NoVNC WebUI of the Browser-in-Browser**
-![Screenshot of the Browser-in-Browser](./_resources/bib.png)
-
-* Port **8081** is the **mitmproxy WebUI**
-![Screenshot of mitmproxy](./_resources/mitmproxy.png)
 ```
 docker run --rm -it \
   -p 5800:5800 \
@@ -26,6 +21,13 @@ docker run --rm -it \
   ghcr.io/maaaaz/bibsnoop-librewolf:latest
 ```
 
+Usage
+-----
+* Port **5800** is the **NoVNC WebUI of the Browser-in-Browser**
+![Screenshot of the Browser-in-Browser](./_resources/bib.png)
+
+* Port **8081** is the **mitmproxy WebUI**
+![Screenshot of mitmproxy](./_resources/mitmproxy.png)
 
 
 Copyright and license
