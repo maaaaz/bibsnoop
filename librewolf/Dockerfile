@@ -10,7 +10,7 @@ WORKDIR /tmp
 
 LABEL \
     org.opencontainers.image.title="bibsnoop-librewolf" \
-    org.opencontainers.image.description="LibreWolf browser with mitmproxy" \
+    org.opencontainers.image.description="$BROWSER_TO_USE_NAME browser with mitmproxy" \
     org.opencontainers.image.version="${DOCKER_IMAGE_VERSION:-unknown}" \
     org.opencontainers.image.documentation="${PROJECT_URL}" \
     org.opencontainers.image.source="${PROJECT_URL}" \
