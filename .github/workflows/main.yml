@@ -15,7 +15,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -70,7 +70,7 @@ jobs:
 ################################################
 
   cleanup:
-    needs: docker
+    needs: build
     runs-on: ubuntu-latest
 
     permissions:
