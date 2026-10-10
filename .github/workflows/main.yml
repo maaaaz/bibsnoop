@@ -91,5 +91,6 @@ jobs:
           exclude-tags: latest
           keep-n-tagged: 3
           delete-untagged: true
-          dry-run: true
+          delete-orphaned-images: true
+          dry-run: false
           validate: true
