@@ -1,6 +1,7 @@
 FROM jlesage/baseimage-gui:alpine-3.24-v4.14.0
 
-ARG DOCKER_IMAGE_VERSION=
+ARG PROJECT_URL="https://github.com/maaaaz/bibsnoop"
+ARG DOCKER_IMAGE_VERSION=1.1
 
 ARG BROWSER_TO_USE_NAME="LibreWolf"
 ARG BROWSER_TO_USE="librewolf"
@@ -8,11 +9,12 @@ ARG BROWSER_TO_USE="librewolf"
 WORKDIR /tmp
 
 LABEL \
-    org.label-schema.name="bibsnoop-librewolf" \
-    org.label-schema.description="LibreWolf browser with mitmproxy" \
-    org.label-schema.version="${DOCKER_IMAGE_VERSION:-unknown}" \
-    org.label-schema.vcs-url="https://librewolf.net/" \
-    org.label-schema.schema-version="1.0"
+    org.opencontainers.image.title="bibsnoop-librewolf" \
+    org.opencontainers.image.description="LibreWolf browser with mitmproxy" \
+    org.opencontainers.image.version="${DOCKER_IMAGE_VERSION:-unknown}" \
+    org.opencontainers.image.documentation="${PROJECT_URL}" \
+    org.opencontainers.image.source="${PROJECT_URL}" \
+    org.opencontainers.image.url="${PROJECT_URL}"
 
 ###############################################################################
 # Install packages
