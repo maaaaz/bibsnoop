@@ -7,7 +7,7 @@ Docker images for *Browser-in-Browser* with traffic observable via `mitmproxy`, 
 
 Features
 --------
-* Based on the ["baseimage-gui" alpine docker image](https://github.com/jlesage/docker-baseimage-gui) of [@jlesage](https://github.com/jlesage/)
+* Based on the ["baseimage-gui" alpine docker image](https://github.com/jlesage/docker-baseimage-gui) of [@jlesage](https://github.com/jlesage/) providing the [stack foundations](https://github.com/jlesage/docker-baseimage-gui#content): OS, window manager, X server, Web server and [noVNC](https://novnc.com)
 * Docker images are currently built for x64 and arm64
 * LibreWolf is currently used as the browser but other browsers and cases (with/without Tor egress) are planned
 * No builtin generic CA certificates: the MiTM CA used between the browser and `mitmproxy` is randomly dynamically generated at each start of the Docker image
@@ -23,7 +23,7 @@ docker run --rm -it \
 
 Usage
 -----
-* Port **5800** is the **NoVNC WebUI of the Browser-in-Browser**
+* Port **5800** is the **noVNC WebUI of the Browser-in-Browser**
 ![Screenshot of the Browser-in-Browser](./_resources/bib.png)
 
 * Port **8081** is the **mitmproxy WebUI**
