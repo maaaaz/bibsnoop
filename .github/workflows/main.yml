@@ -38,7 +38,7 @@ jobs:
       - name: Set build tag
         id: meta
         run: |
-          echo "tag=build-$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          echo "tag=$(date -u +%Y%m%d)" >> "$GITHUB_OUTPUT"
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v4
