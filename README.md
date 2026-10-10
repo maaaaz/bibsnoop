@@ -9,8 +9,9 @@ Features
 --------
 * Based on the ["baseimage-gui" alpine docker image](https://github.com/jlesage/docker-baseimage-gui) of [@jlesage](https://github.com/jlesage/) providing the [stack foundations](https://github.com/jlesage/docker-baseimage-gui#content): OS, window manager, X server, Web server and [noVNC](https://novnc.com)
 * Docker images are currently built for x64 and arm64
-* LibreWolf is currently used as the browser but other browsers and cases (with/without Tor egress) are planned
+* LibreWolf is currently used as the browser but other browsers are planned
 * No builtin generic CA certificates: the MiTM CA used between the browser and `mitmproxy` is randomly dynamically generated at each start of the Docker image
+* Can route egress traffic through TOR
 
 Quickstart
 -----
@@ -18,6 +19,15 @@ Quickstart
 docker run --rm -it \
   -p 5800:5800 \
   -p 8081:8081 \
+  ghcr.io/maaaaz/bibsnoop-librewolf:latest
+```
+  
+With TOR egress:
+```
+docker run --rm -it \
+  -p 5800:5800 \
+  -p 8081:8081 \
+  -e USE_TOR=1 \
   ghcr.io/maaaaz/bibsnoop-librewolf:latest
 ```
 
