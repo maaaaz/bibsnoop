@@ -52,10 +52,8 @@ RUN chmod +x /startapp.sh
 # Generate application icon
 ###############################################################################
 
-RUN \
-    APP_ICON_URL=https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/librewolf.png && \
-    install_app_icon.sh "$APP_ICON_URL"
-
+COPY assets/icon.png /tmp/icon.png
+RUN install_app_icon.sh "/tmp/icon.png"
 
 ###############################################################################
 # Container environment
