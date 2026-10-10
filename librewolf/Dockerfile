@@ -9,7 +9,7 @@ ARG BROWSER_TO_USE="librewolf"
 WORKDIR /tmp
 
 LABEL \
-    org.opencontainers.image.title="bibsnoop-librewolf" \
+    org.opencontainers.image.title="bibsnoop-${BROWSER_TO_USE}" \
     org.opencontainers.image.description="${BROWSER_TO_USE_NAME} browser with mitmproxy" \
     org.opencontainers.image.version="${DOCKER_IMAGE_VERSION:-unknown}" \
     org.opencontainers.image.documentation="${PROJECT_URL}" \
@@ -71,7 +71,7 @@ RUN BROWSER_VERSION="$("$BROWSER_TO_USE" -v 2>/dev/null | awk '{print $NF}')" &&
 
 ENV \
     BROWSER_TO_USE="${BROWSER_TO_USE}" \
-    LIBREWOLF_CUSTOM_ARGS="" \
+    BROWSER_CUSTOM_ARGS="" \
     USE_TOR=0
 
 
