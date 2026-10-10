@@ -22,7 +22,7 @@ docker run --rm -it \
   ghcr.io/maaaaz/bibsnoop-librewolf:latest
 ```
   
-With TOR egress:
+With TOR egress (browser -> mitmproxy -> TOR):
 ```
 docker run --rm -it \
   -p 5800:5800 \
