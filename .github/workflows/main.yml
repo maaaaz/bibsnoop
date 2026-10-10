@@ -3,6 +3,10 @@ name: Daily builds
 on:
   workflow_dispatch
 
+concurrency:
+  group: daily-builds-${{ github.repository }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
   packages: write
