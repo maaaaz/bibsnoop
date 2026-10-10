@@ -15,13 +15,18 @@ Features
 Usage
 -----
 * Port **5800** is the **NoVNC WebUI of the Browser-in-Browser**
+![Screenshot of the Browser-in-Browser](./_resources/bib.png)
+
 * Port **8081** is the **mitmproxy WebUI**
+![Screenshot of mitmproxy](./_resources/mitmproxy.png)
 ```
 docker run --rm -it \
   -p 5800:5800 \
   -p 8081:8081 \
   ghcr.io/maaaaz/bibsnoop-librewolf:latest
 ```
+
+
 
 Copyright and license
 ---------------------
