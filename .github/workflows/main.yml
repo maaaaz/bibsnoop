@@ -101,12 +101,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: without_tor_egress
-            container: librewolf-notor
+          - name: librewolf_without_tor_egress
+            image: bibsnoop-librewolf
+            container: bibsnoop-librewolf
             tor_egress: "0"
 
-          - name: with_tor_egress
-            container: librewolf-tor
+          - name: librewolf_with_tor_egress
+            image: bibsnoop-librewolf
+            container: bibsnoop-librewolf-tor
             tor_egress: "1"
 
     steps:
@@ -119,9 +121,10 @@ jobs:
 
       - name: Start container and inspect startup
         env:
-          IMAGE: ghcr.io/${{ github.repository_owner }}/bibsnoop-librewolf:latest
+          IMAGE: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image }}:latest
           CONTAINER: ${{ matrix.container }}
           TOR_EGRESS: ${{ matrix.tor_egress }}
+          
         run: |
           set -Eeuo pipefail
           cleanup() {
@@ -137,13 +140,12 @@ jobs:
           docker pull "$IMAGE"
 
           echo "Starting container: $CONTAINER"
-
           if [ "$TOR_EGRESS" = "1" ]; then
             docker run -d --name "$CONTAINER" -e TOR_EGRESS=1 "$IMAGE"
           else
             docker run -d --name "$CONTAINER" "$IMAGE"
           fi
-
+          
           echo "Waiting 40 seconds for startup..."
           sleep 40
 
