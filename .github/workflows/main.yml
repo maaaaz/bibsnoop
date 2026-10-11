@@ -87,14 +87,27 @@ jobs:
           delete-orphaned-images: true
           dry-run: false
           validate: true
-##############################################
+
+################################################
   test:
-    name: Test bibsnoop-librewolf
+    name: test bibsnoop-librewolf (${{ matrix.name }})
     needs: [build, cleanup]
     runs-on: ubuntu-latest
 
     permissions:
       packages: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: without_tor_egress
+            container: librewolf-notor
+            tor_egress: "0"
+
+          - name: with_tor_egress
+            container: librewolf-tor
+            tor_egress: "1"
 
     steps:
       - name: Log in to GHCR
@@ -107,11 +120,10 @@ jobs:
       - name: Start container and inspect startup
         env:
           IMAGE: ghcr.io/${{ github.repository_owner }}/bibsnoop-librewolf:latest
+          CONTAINER: ${{ matrix.container }}
+          TOR_EGRESS: ${{ matrix.tor_egress }}
         run: |
           set -Eeuo pipefail
-
-          CONTAINER="librewolf-smoke-test"
-
           cleanup() {
             echo "::group::Container startup logs"
             docker logs "$CONTAINER" 2>&1 || true
@@ -124,8 +136,13 @@ jobs:
           echo "Pulling image: $IMAGE"
           docker pull "$IMAGE"
 
-          echo "Starting container..."
-          docker run -d --name "$CONTAINER" "$IMAGE"
+          echo "Starting container: $CONTAINER"
+
+          if [ "$TOR_EGRESS" = "1" ]; then
+            docker run -d --name "$CONTAINER" -e TOR_EGRESS=1 "$IMAGE"
+          else
+            docker run -d --name "$CONTAINER" "$IMAGE"
+          fi
 
           echo "Waiting 40 seconds for startup..."
           sleep 40
@@ -136,6 +153,5 @@ jobs:
             docker inspect --format 'Exit code: {{.State.ExitCode}}' "$CONTAINER"
             exit 1
           fi
-
           echo "Container is still running after 40 seconds."
           echo "Quick test passed."
