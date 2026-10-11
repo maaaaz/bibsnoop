@@ -1,7 +1,7 @@
 FROM jlesage/baseimage-gui:alpine-3.24-v4.14.0
 
 ARG PROJECT_URL="https://github.com/maaaaz/bibsnoop"
-ARG DOCKER_IMAGE_VERSION=1.1
+ARG DOCKER_IMAGE_VERSION=1.2
 
 ARG BROWSER_TO_USE_NAME="LibreWolf"
 ARG BROWSER_TO_USE="librewolf"
