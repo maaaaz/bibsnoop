@@ -6,6 +6,7 @@ set -eu
 ###############################################################################
 
 TOR_EGRESS="${TOR_EGRESS:-0}"
+TOR_EGRESS_EXITNODES="${TOR_EGRESS_EXITNODES:-}"
 
 MITMPROXY_DIR="/tmp/mitmproxy"
 MITMPROXY_CA="${MITMPROXY_DIR}/mitmproxy-ca-cert.pem"
@@ -140,9 +141,19 @@ if [ "$TOR_EGRESS" = "1" ]; then
     mkdir -p "$TOR_DATA_DIR"
     chmod 700 "$TOR_DATA_DIR"
 
+    # Build optional Tor arguments without splitting the user-supplied value.
+    set --
+    if [ -n "$TOR_EGRESS_EXITNODES" ]; then
+        log "Requested Tor exit nodes: $TOR_EGRESS_EXITNODES"
+
+        # Pass the entire ExitNodes list as one argument.
+        set -- "$@" --ExitNodes "$TOR_EGRESS_EXITNODES" --StrictNodes 1
+    fi
+
     tor --DataDirectory "$TOR_DATA_DIR" \
         --SocksPort "$TOR_SOCKS_HOST:$TOR_SOCKS_PORT" \
         --Log "notice file $TOR_LOG" \
+        "$@" \
         >/tmp/tor-console.log 2>&1 &
     
     TOR_PID=$!
