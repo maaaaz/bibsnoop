@@ -89,6 +89,13 @@ case "$TOR_EGRESS" in
     *) log "ERROR: TOR_EGRESS must be 0 or 1."; exit 1 ;;
 esac
 
+if [ "$TOR_EGRESS" = "1" ] && [ -n "$TOR_EGRESS_EXITNODES" ]; then
+    log "Validating TOR_EGRESS_EXITNODES: $TOR_EGRESS_EXITNODES"
+    if ! tor --verify-config --ExitNodes "$TOR_EGRESS_EXITNODES" --StrictNodes 1 >/tmp/tor-verify.log 2>&1; then
+        log "ERROR: Invalid TOR_EGRESS_EXITNODES configuration."
+        cat /tmp/tor-verify.log
+        exit 1
+    fi
 ###############################################################################
 # Generate mitmproxy CA
 ###############################################################################
@@ -207,7 +214,15 @@ MITMWEB_PID=$!
 wait_for_port "$MITMPROXY_HOST" "$MITMPROXY_PORT" "$MITMWEB_PID" /tmp/mitmweb.log
 
 log "mitmweb: $MITMPROXY_HOST:$MITMPROXY_PORT (proxy), $MITMWEB_HOST:$MITMWEB_PORT (UI)"
-[ "$TOR_EGRESS" = "1" ] && log "Upstream: GOST -> TOR" || log "Upstream: direct"
+if [ "$TOR_EGRESS" = "1" ]; then
+    if [ -n "$TOR_EGRESS_EXITNODES" ]; then
+        log "Upstream: GOST -> Tor; ExitNodes=$TOR_EGRESS_EXITNODES; StrictNodes=1"
+    else
+        log "Upstream: GOST -> Tor; default exit-node selection"
+    fi
+else
+    log "Upstream: direct"
+fi
 
 ###############################################################################
 # Start LibreWolf
