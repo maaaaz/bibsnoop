@@ -62,7 +62,7 @@ jobs:
 
 ################################################
 
-  cleanup:
+  cleanup_registry:
     needs: build
     runs-on: ubuntu-latest
 
@@ -91,7 +91,7 @@ jobs:
 ################################################
   test:
     name: test bibsnoop-librewolf (${{ matrix.name }})
-    needs: [build, cleanup]
+    needs: [build, cleanup_registry]
     runs-on: ubuntu-latest
 
     permissions:
