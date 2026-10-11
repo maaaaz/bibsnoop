@@ -37,7 +37,7 @@ Two sort of options can be passed:
   - See the ["public environment variables" section](https://github.com/jlesage/docker-baseimage-gui#public-environment-variables)
     
 * The ones provided **specifically** for `bibsnoop`:
-  - `TOR_EGRESS`: route egress traffic through TOR  
+  - `TOR_EGRESS`: route egress traffic through TOR (browser -> mitmproxy -> TOR)  
     ```
     docker run --rm -it \
       -p 5800:5800 \
@@ -45,7 +45,7 @@ Two sort of options can be passed:
       -e "TOR_EGRESS=1" \
       ghcr.io/maaaaz/bibsnoop-librewolf:latest
     ```
-  - `TOR_EGRESS_EXITNODES`: choosing TOR exit nodes countries
+  - `TOR_EGRESS_EXITNODES`: route egress traffic through chosen TOR exit node countries
     ```
     docker run --rm -it \
       -p 5800:5800 \
