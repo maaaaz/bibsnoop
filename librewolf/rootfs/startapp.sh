@@ -5,7 +5,7 @@ set -eu
 # Configuration
 ###############################################################################
 
-USE_TOR="${USE_TOR:-0}"
+TOR_EGRESS="${TOR_EGRESS:-0}"
 
 MITMPROXY_DIR="/tmp/mitmproxy"
 MITMPROXY_CA="${MITMPROXY_DIR}/mitmproxy-ca-cert.pem"
@@ -83,9 +83,9 @@ wait_for_port() {
 # Validate configuration
 ###############################################################################
 
-case "$USE_TOR" in
+case "$TOR_EGRESS" in
     0|1) ;;
-    *) log "ERROR: USE_TOR must be 0 or 1."; exit 1 ;;
+    *) log "ERROR: TOR_EGRESS must be 0 or 1."; exit 1 ;;
 esac
 
 ###############################################################################
@@ -133,7 +133,7 @@ fi
 # Start optional Tor and GOST
 ###############################################################################
 
-if [ "$USE_TOR" = "1" ]; then
+if [ "$TOR_EGRESS" = "1" ]; then
     log "Starting TOR..."
 
     rm -rf "$TOR_DATA_DIR"
@@ -179,7 +179,7 @@ fi
 ###############################################################################
 log "Starting mitmweb..."
 
-if [ "$USE_TOR" = "1" ]; then
+if [ "$TOR_EGRESS" = "1" ]; then
     mitmweb --set confdir="$MITMPROXY_DIR" \
         --mode "upstream:http://$GOST_HOST:$GOST_PORT" \
         --set listen_host="$MITMPROXY_HOST" --set listen_port="$MITMPROXY_PORT" \
@@ -196,7 +196,7 @@ MITMWEB_PID=$!
 wait_for_port "$MITMPROXY_HOST" "$MITMPROXY_PORT" "$MITMWEB_PID" /tmp/mitmweb.log
 
 log "mitmweb: $MITMPROXY_HOST:$MITMPROXY_PORT (proxy), $MITMWEB_HOST:$MITMWEB_PORT (UI)"
-[ "$USE_TOR" = "1" ] && log "Upstream: GOST -> TOR" || log "Upstream: direct"
+[ "$TOR_EGRESS" = "1" ] && log "Upstream: GOST -> TOR" || log "Upstream: direct"
 
 ###############################################################################
 # Start LibreWolf
