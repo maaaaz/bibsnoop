@@ -72,7 +72,7 @@ RUN BROWSER_VERSION="$("$BROWSER_TO_USE" -v 2>/dev/null | awk '{print $NF}')" &&
 ENV \
     BROWSER_TO_USE="${BROWSER_TO_USE}" \
     BROWSER_CUSTOM_ARGS="" \
-    TOR_EGRESS=0
+    TOR_EGRESS=0 \
     TOR_EGRESS_EXITNODES=""
 
 ###############################################################################
