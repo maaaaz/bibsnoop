@@ -96,6 +96,7 @@ if [ "$TOR_EGRESS" = "1" ] && [ -n "$TOR_EGRESS_EXITNODES" ]; then
         cat /tmp/tor-verify.log
         exit 1
     fi
+    log "TOR accepted the exit-node configuration."
 fi
 ###############################################################################
 # Generate mitmproxy CA
@@ -139,7 +140,7 @@ if ! certutil -L -d "sql:$BROWSER_PROFILE" | grep -q "mitmproxy"; then
 fi
 
 ###############################################################################
-# Start optional Tor and GOST
+# Start optional TOR and GOST
 ###############################################################################
 
 if [ "$TOR_EGRESS" = "1" ]; then
@@ -152,12 +153,11 @@ if [ "$TOR_EGRESS" = "1" ]; then
     # Build optional Tor arguments without splitting the user-supplied value.
     set --
     if [ -n "$TOR_EGRESS_EXITNODES" ]; then
-        log "Requested Tor exit nodes: $TOR_EGRESS_EXITNODES"
-
+        log "Requested TOR exit nodes: $TOR_EGRESS_EXITNODES"
         # Pass the entire ExitNodes list as one argument.
         set -- "$@" --ExitNodes "$TOR_EGRESS_EXITNODES" --StrictNodes 1
     fi
-
+    
     tor --DataDirectory "$TOR_DATA_DIR" \
         --SocksPort "$TOR_SOCKS_HOST:$TOR_SOCKS_PORT" \
         --Log "notice file $TOR_LOG" \
@@ -184,7 +184,6 @@ if [ "$TOR_EGRESS" = "1" ]; then
     done
 
     log "TOR bootstrapped; starting GOST..."
-
     gost -L "http://$GOST_HOST:$GOST_PORT" \
          -F "socks5://$TOR_SOCKS_HOST:$TOR_SOCKS_PORT" \
         >/tmp/gost.log 2>&1 &
@@ -217,9 +216,9 @@ wait_for_port "$MITMPROXY_HOST" "$MITMPROXY_PORT" "$MITMWEB_PID" /tmp/mitmweb.lo
 log "mitmweb: $MITMPROXY_HOST:$MITMPROXY_PORT (proxy), $MITMWEB_HOST:$MITMWEB_PORT (UI)"
 if [ "$TOR_EGRESS" = "1" ]; then
     if [ -n "$TOR_EGRESS_EXITNODES" ]; then
-        log "Upstream: GOST -> Tor; ExitNodes=$TOR_EGRESS_EXITNODES; StrictNodes=1"
+        log "Upstream: GOST -> TOR; ExitNodes=$TOR_EGRESS_EXITNODES; StrictNodes=1"
     else
-        log "Upstream: GOST -> Tor; default exit-node selection"
+        log "Upstream: GOST -> TOR; default exit-node selection"
     fi
 else
     log "Upstream: direct"
