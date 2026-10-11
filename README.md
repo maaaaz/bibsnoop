@@ -22,11 +22,6 @@ docker run --rm -it \
   ghcr.io/maaaaz/bibsnoop-librewolf:latest
 ```
 
-With TOR egress (browser -> mitmproxy -> TOR):
-
-With TOR egress and choosing TOR exit nodes countries (browser -> mitmproxy -> TOR):
-
-
 Usage
 -----
 * Port **5800** is the **noVNC WebUI of the Browser-in-Browser**
