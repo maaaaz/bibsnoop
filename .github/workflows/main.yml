@@ -87,3 +87,55 @@ jobs:
           delete-orphaned-images: true
           dry-run: false
           validate: true
+##############################################
+  test:
+    name: Test bibsnoop-librewolf
+    needs: [build, cleanup]
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: read
+
+    steps:
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start container and inspect startup
+        env:
+          IMAGE: ghcr.io/${{ github.repository_owner }}/bibsnoop-librewolf:latest
+        run: |
+          set -Eeuo pipefail
+
+          CONTAINER="librewolf-smoke-test"
+
+          cleanup() {
+            echo "::group::Container startup logs"
+            docker logs "$CONTAINER" 2>&1 || true
+            echo "::endgroup::"
+
+            docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          echo "Pulling image: $IMAGE"
+          docker pull "$IMAGE"
+
+          echo "Starting container..."
+          docker run -d --name "$CONTAINER" "$IMAGE"
+
+          echo "Waiting 40 seconds for startup..."
+          sleep 40
+
+          RUNNING=$(docker inspect --format '{{.State.Running}}' "$CONTAINER")
+          if [ "$RUNNING" != "true" ]; then
+            echo "::error::Container exited during startup!"
+            docker inspect --format 'Exit code: {{.State.ExitCode}}' "$CONTAINER"
+            exit 1
+          fi
+
+          echo "Container is still running after 40 seconds."
+          echo "Quick test passed."
