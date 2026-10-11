@@ -73,7 +73,7 @@ ENV \
     BROWSER_TO_USE="${BROWSER_TO_USE}" \
     BROWSER_CUSTOM_ARGS="" \
     TOR_EGRESS=0
-
+    TOR_EGRESS_EXITNODES=""
 
 ###############################################################################
 # Ports
