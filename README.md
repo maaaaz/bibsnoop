@@ -7,11 +7,11 @@ Docker images for *Browser-in-Browser* with traffic observable via `mitmproxy`, 
 
 Features
 --------
-* Based on the ["baseimage-gui" alpine docker image](https://github.com/jlesage/docker-baseimage-gui) of [@jlesage](https://github.com/jlesage/) providing the [stack foundations](https://github.com/jlesage/docker-baseimage-gui#content): OS, window manager, X server, Web server and [noVNC](https://novnc.com)
+* Based on the ["baseimage-gui" docker image](https://github.com/jlesage/docker-baseimage-gui) of [@jlesage](https://github.com/jlesage/) providing the [stack foundations](https://github.com/jlesage/docker-baseimage-gui#content): OS, window manager, X server, Web server and [noVNC](https://novnc.com)
 * Docker images are currently built for x64 and arm64
 * LibreWolf is currently used as the browser but other browsers are planned
 * No builtin generic CA certificates: the MiTM CA used between the browser and `mitmproxy` is randomly dynamically generated at each start of the Docker image
-* Can route egress traffic through TOR
+* Can route egress traffic through TOR, and choose TOR ExitNodes
 
 Quickstart
 -----
@@ -21,15 +21,11 @@ docker run --rm -it \
   -p 8081:8081 \
   ghcr.io/maaaaz/bibsnoop-librewolf:latest
 ```
-  
+
 With TOR egress (browser -> mitmproxy -> TOR):
-```
-docker run --rm -it \
-  -p 5800:5800 \
-  -p 8081:8081 \
-  -e USE_TOR=1 \
-  ghcr.io/maaaaz/bibsnoop-librewolf:latest
-```
+
+With TOR egress and choosing TOR exit nodes countries (browser -> mitmproxy -> TOR):
+
 
 Usage
 -----
@@ -39,6 +35,30 @@ Usage
 * Port **8081** is the **mitmproxy WebUI**
 ![Screenshot of mitmproxy](./_resources/mitmproxy.png)
 
+Options
+-------
+Two sort of options can be passed:
+* The ones provided by **"baseimage-gui" docker image** such as app user permissions, enabling audio from the web browser, clipboard etc.
+  - see the ["public environment variables" section](https://github.com/jlesage/docker-baseimage-gui#public-environment-variables)
+    
+* The ones provided **specifically** for `bibsnoop`:
+  - `TOR_EGRESS`: route egress traffic through TOR  
+    ```
+    docker run --rm -it \
+      -p 5800:5800 \
+      -p 8081:8081 \
+      -e "TOR_EGRESS=1" \
+      ghcr.io/maaaaz/bibsnoop-librewolf:latest
+    ```
+  - `TOR_EGRESS_EXITNODES`: choosing TOR exit nodes countries
+    ```
+    docker run --rm -it \
+      -p 5800:5800 \
+      -p 8081:8081 \
+      -e "TOR_EGRESS=1" \
+      -e "TOR_EGRESS_EXITNODES={fr},{nl}"
+      ghcr.io/maaaaz/bibsnoop-librewolf:latest
+    ```
 
 Copyright and license
 ---------------------
