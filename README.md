@@ -34,7 +34,7 @@ Options
 -------
 Two sort of options can be passed:
 * The ones provided by **"baseimage-gui" docker image** such as app user permissions, enabling audio from the web browser, clipboard etc.
-  - see the ["public environment variables" section](https://github.com/jlesage/docker-baseimage-gui#public-environment-variables)
+  - See the ["public environment variables" section](https://github.com/jlesage/docker-baseimage-gui#public-environment-variables)
     
 * The ones provided **specifically** for `bibsnoop`:
   - `TOR_EGRESS`: route egress traffic through TOR  
