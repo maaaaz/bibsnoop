@@ -57,7 +57,7 @@ Two sort of options can be cumulatively passed:
 
 Remarks
 -------
-If you serve access to `mitmproxy` port through a reverse-proxy, be sure that the `Origin` header is set to the correct local address+port.  
+If you serve access to `mitmproxy` port through a reverse-proxy, be sure that the `Origin` header is set to the correct local address+port, as `mitmproxy` uses websockets.  
 For instance, if you do this port mapping through Docker `-p 127.0.0.1:8081:8081`, and you want to do a path-based reverse-proxying with `Nginx`, you need a config similar to this:
 ```
 map $http_upgrade $connection_upgrade {
