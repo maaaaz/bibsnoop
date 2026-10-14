@@ -32,7 +32,7 @@ Usage
 
 Options
 -------
-Two sort of options can be passed:
+Two sort of options can be cumulatively passed:
 * The ones provided by **"baseimage-gui" docker image** such as app user permissions, enabling audio from the web browser, clipboard etc.
   - See the ["public environment variables" section](https://github.com/jlesage/docker-baseimage-gui#public-environment-variables)
     
@@ -54,6 +54,41 @@ Two sort of options can be passed:
       -e "TOR_EGRESS_EXITNODES={fr},{nl}"
       ghcr.io/maaaaz/bibsnoop-librewolf:latest
     ```
+
+Remarks
+-------
+If you serve access to `mitmproxy` port through a reverse-proxy, be sure that the `Origin` header is set to the correct local address+port.  
+For instance, if you do this port mapping through Docker `-p 127.0.0.1:8081:8081`, and you want to do a path-based reverse-proxying with `Nginx`, you need a config similar to this:
+```
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+location = /mitm {
+    return 301 /mitm/;
+}
+
+location /mitm/ {
+    proxy_pass http://127.0.0.1:8081/;
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+
+    proxy_set_header Host 127.0.0.1:8081;
+    proxy_set_header Origin http://127.0.0.1:8081;
+
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_buffering off;
+    proxy_read_timeout 86400s;
+    proxy_send_timeout 86400s;
+}
+```
+More info [here](https://github.com/mitmproxy/mitmproxy/discussions/6960) and [there](https://github.com/mitmproxy/mitmproxy/discussions/7198).  
 
 Copyright and license
 ---------------------
